@@ -80,7 +80,8 @@ public class MainActivity extends AppCompatActivity {
      * @param view The emojify me button.
      */
     public void emojifyMe(View view) {
-        // Check for the external storage permission
+        // https://developer.android.com/training/permissions/requesting.html
+        // Check for the external storage permission using the runtime permission model
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -95,15 +96,17 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    // returns the results of permission request
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
             @NonNull int[] grantResults) {
         // Called when you request permission to read and write to external storage
         switch (requestCode) {
             case REQUEST_STORAGE_PERMISSION: {
+                // If request is cancelled, the result arrays are empty
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    // If you get permission, launch the camera
+                    // Permission is granted, launch the camera
                     launchCamera();
                 } else {
                     // If you do not get permission, show a Toast
@@ -119,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
      */
     private void launchCamera() {
 
-        // Create the capture image intent
+        // Create the capture image implicit intent
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
         // Ensure that there's a camera activity to handle the intent
@@ -152,7 +155,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
+    // Called once the user returns from camera app
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         // If the image capture activity was called and was successful
@@ -178,7 +181,7 @@ public class MainActivity extends AppCompatActivity {
         mShareFab.setVisibility(View.VISIBLE);
         mClearFab.setVisibility(View.VISIBLE);
 
-        // Resample the saved image to fit the ImageView
+        // Resample the saved image to fit the ImageView (to use less memory)
         mResultsBitmap = BitmapUtils.resamplePic(this, mTempPhotoPath);
 
         // Set the new bitmap to the ImageView
@@ -195,7 +198,7 @@ public class MainActivity extends AppCompatActivity {
         // Delete the temporary image file
         BitmapUtils.deleteImageFile(this, mTempPhotoPath);
 
-        // Save the image
+        // Save the processed image in external storage
         BitmapUtils.saveImage(this, mResultsBitmap);
     }
 
@@ -221,7 +224,7 @@ public class MainActivity extends AppCompatActivity {
      * @param view The clear button.
      */
     public void clearImage(View view) {
-        // Clear the image and toggle the view visibility
+        // Clear the image in ImageView and toggle the view visibility
         mImageView.setImageResource(0);
         mEmojifyButton.setVisibility(View.VISIBLE);
         mTitleTextView.setVisibility(View.VISIBLE);

@@ -17,10 +17,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.android.emojify">
 
+    <!--app will use the camera-->
     <uses-feature
         android:name="android.hardware.camera"
         android:required="true" />
+    <!--prevent user from downloading the app if the phone doesn't support the camera when set to true-->
 
+    <!--if the app is running on device API23 and higher, you need to request the permission using -->
+    <!--the runtime permission model, but the permission is required regardless of API level-->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application

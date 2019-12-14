@@ -41,6 +41,7 @@ class BitmapUtils {
 
 
     /**
+     * Gets the height and width of the device screen in pixels, and resamples the passed in image to fit the screen.
      * Resamples the captured photo to fit the screen for better memory usage.
      *
      * @param context   The application context.
@@ -75,7 +76,7 @@ class BitmapUtils {
     }
 
     /**
-     * Creates the temporary image file in the cache directory.
+     * Creates a temporary file in the external cache directory and returns the new temp file
      *
      * @return The temporary image file.
      * @throws IOException Thrown if there is an error creating the file
@@ -118,6 +119,8 @@ class BitmapUtils {
     /**
      * Helper method for adding the photo to the system photo gallery so it can be accessed
      * from other apps.
+     * Causes the image content provider to add the image from the passed in path to the system gallery,
+     * so it can be found by other app. It is only called inside the saveImage() described below.
      *
      * @param imagePath The path of the saved image
      */
@@ -131,7 +134,8 @@ class BitmapUtils {
 
 
     /**
-     * Helper method for saving the image.
+     * Helper method for saving the Bitmap image in the External Storage, in the subdirectory called "Emojify"
+     * It also adds the image to the system gallery by calling the above galleryAddPic().
      *
      * @param context The application context.
      * @param image   The image to be saved.
@@ -178,6 +182,7 @@ class BitmapUtils {
 
     /**
      * Helper method for sharing an image.
+     * Creates a share implicit intent, which will bring up the system chooser with apps that handle sharing an image.
      *
      * @param context   The image context.
      * @param imagePath The path of the image to be shared.
