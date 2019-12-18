@@ -44,6 +44,8 @@ class Emojifier {
 
         // Log the number of faces
         Log.d(LOG_TAG, "detectFaces: number of faces = " + faces.size());
+        Toast.makeText(context,  faces.size() + " faces detected", Toast.LENGTH_SHORT).show();
+
 
         // If there are no faces detected, show a Toast message
         if(faces.size() == 0){
