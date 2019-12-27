@@ -33,6 +33,7 @@ class Emojifier {
     private static final String LOG_TAG = Emojifier.class.getSimpleName();
 
     private static final float EMOJI_SCALE_FACTOR = .9f;
+
     private static final double SMILING_PROB_THRESHOLD = .15;
     private static final double EYE_OPEN_PROB_THRESHOLD = .5;
 
@@ -53,6 +54,10 @@ class Emojifier {
 
         // Build the frame
         Frame frame = new Frame.Builder().setBitmap(picture).build();
+
+        if (!detector.isOperational()) {
+            Toast.makeText(context, "FALSE", Toast.LENGTH_SHORT).show();
+        }
 
         // Detect the faces
         SparseArray<Face> faces = detector.detect(frame);
@@ -191,7 +196,7 @@ class Emojifier {
         Bitmap resultBitmap = Bitmap.createBitmap(backgroundBitmap.getWidth(),
                 backgroundBitmap.getHeight(), backgroundBitmap.getConfig());
 
-        // Scale the emoji so it looks better on the face
+        // Scale the emoji so it looks better on the face - we can change the size of emoji here
         float scaleFactor = EMOJI_SCALE_FACTOR;
 
         // Determine the size of the emoji to match the width of the face and preserve aspect ratio

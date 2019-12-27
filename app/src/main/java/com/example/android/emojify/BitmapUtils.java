@@ -20,6 +20,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Environment;
 import android.support.v4.content.FileProvider;
@@ -71,7 +72,15 @@ class BitmapUtils {
         bmOptions.inJustDecodeBounds = false;
         bmOptions.inSampleSize = scaleFactor;
 
-        return BitmapFactory.decodeFile(imagePath);
+        // Added extra, that the app doesn't crash after taking picture in landscape mode & rotating it into portrait mode to show face with smiley
+        Matrix matrix = new Matrix();
+        matrix.postRotate(-90);
+        Bitmap bitmapOrg = BitmapFactory.decodeFile(imagePath);
+        Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmapOrg, bitmapOrg.getWidth(), bitmapOrg.getHeight(), true);
+        Bitmap rotatedBitmap = Bitmap.createBitmap(scaledBitmap, 0, 0, scaledBitmap.getWidth(), scaledBitmap.getHeight(), matrix, true);
+        return rotatedBitmap;
+
+//        return BitmapFactory.decodeFile(imagePath);
     }
 
     /**
