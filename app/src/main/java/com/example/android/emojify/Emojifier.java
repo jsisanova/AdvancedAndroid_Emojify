@@ -28,10 +28,12 @@ import com.google.android.gms.vision.Frame;
 import com.google.android.gms.vision.face.Face;
 import com.google.android.gms.vision.face.FaceDetector;
 
+import timber.log.Timber;
+
 class Emojifier {
 
     // TODO (3): Change all Log statements to Timber logs and remove the LOG_TAG variable
-    private static final String LOG_TAG = Emojifier.class.getSimpleName();
+//    private static final String LOG_TAG = Emojifier.class.getSimpleName();
 
     private static final float EMOJI_SCALE_FACTOR = .9f;
     private static final double SMILING_PROB_THRESHOLD = .15;
@@ -59,7 +61,8 @@ class Emojifier {
         SparseArray<Face> faces = detector.detect(frame);
 
         // Log the number of faces
-        Log.d(LOG_TAG, "detectFaces: number of faces = " + faces.size());
+//        Log.d(LOG_TAG, "detectFaces: number of faces = " + faces.size());
+        Timber.d("TimberTest: detectFaces: number of faces = " + faces.size());
 
         // Initialize result bitmap to original picture
         Bitmap resultBitmap = picture;
@@ -134,11 +137,13 @@ class Emojifier {
 
     private static Emoji whichEmoji(Face face) {
         // Log all the probabilities
-        Log.d(LOG_TAG, "whichEmoji: smilingProb = " + face.getIsSmilingProbability());
-        Log.d(LOG_TAG, "whichEmoji: leftEyeOpenProb = "
-                + face.getIsLeftEyeOpenProbability());
-        Log.d(LOG_TAG, "whichEmoji: rightEyeOpenProb = "
-                + face.getIsRightEyeOpenProbability());
+//        Log.d(LOG_TAG, "whichEmoji: smilingProb = " + face.getIsSmilingProbability());
+//        Log.d(LOG_TAG, "whichEmoji: leftEyeOpenProb = " + face.getIsLeftEyeOpenProbability());
+//        Log.d(LOG_TAG, "whichEmoji: rightEyeOpenProb = " + face.getIsRightEyeOpenProbability());
+
+        Timber.d("TimberTest: whichEmoji: smilingProb = " + face.getIsSmilingProbability());
+        Timber.d("TimberTest: whichEmoji: leftEyeOpenProb = " + face.getIsLeftEyeOpenProbability());
+        Timber.d("TimberTest: whichEmoji: rightEyeOpenProb = " + face.getIsRightEyeOpenProbability());
 
 
         boolean smiling = face.getIsSmilingProbability() > SMILING_PROB_THRESHOLD;
@@ -173,7 +178,8 @@ class Emojifier {
 
 
         // Log the chosen Emoji
-        Log.d(LOG_TAG, "whichEmoji: " + emoji.name());
+//        Log.d(LOG_TAG, "whichEmoji: " + emoji.name());
+        Timber.d("TimberTest: whichEmoji: " + emoji.name());
 
         return emoji;
     }
